@@ -1,1 +1,1 @@
-# stolen-democracy
+# Stolen Democracy
