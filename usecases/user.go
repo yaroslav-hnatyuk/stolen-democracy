@@ -6,17 +6,17 @@ type Logger interface {
 	Log(message string) error
 }
 
-type UserGetUsecase struct {
-	UserId         int
-	UserRepository entities.UserRepository
-	Logger         Logger
+type Presenter interface {
+	GetOutput(entities.User) []byte
 }
 
-func (uc *UserGetUsecase) execute() entities.Entity {
-	user := uc.UserRepository.FindById(uc.UserId)
-	if user == nil {
-		uc.Logger.Log("User not found")
-	}
+type UserUsecase struct {
+	UserId         int
+	UserRepository entities.UserRepository
+	Presenter      Presenter
+}
 
-	return user
+func (uc UserUsecase) Execute() []byte {
+	user := uc.UserRepository.FindById(uc.UserId)
+	return uc.Presenter.GetOutput(user)
 }
